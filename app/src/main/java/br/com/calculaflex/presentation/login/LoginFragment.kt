@@ -15,6 +15,7 @@ import br.com.calculaflex.data.remote.datasource.UserRemoteFirebaseDataSourceImp
 import br.com.calculaflex.data.repository.UserRepositoryImpl
 import br.com.calculaflex.domain.entity.RequestState
 import br.com.calculaflex.domain.usecases.LoginUseCase
+import br.com.calculaflex.domain.usecases.ResetPasswordUseCase
 import br.com.calculaflex.presentation.base.BaseFragment
 import br.com.calculaflex.presentation.base.auth.NAVIGATION_KEY
 import com.google.firebase.auth.ktx.auth
@@ -41,6 +42,11 @@ class LoginFragment : BaseFragment() {
             this,
             LoginViewModelFactory(
                 LoginUseCase(
+                    UserRepositoryImpl(
+                        UserRemoteFirebaseDataSourceImpl(Firebase.auth)
+                    )
+                ),
+                ResetPasswordUseCase(
                     UserRepositoryImpl(
                         UserRemoteFirebaseDataSourceImpl(Firebase.auth)
                     )
@@ -76,7 +82,7 @@ class LoginFragment : BaseFragment() {
         }
 
         tvResetPassword.setOnClickListener {
-
+            loginViewModel.resetPassword(etEmailLogin.text.toString())
         }
 
         tvNewAccount.setOnClickListener {
@@ -90,6 +96,16 @@ class LoginFragment : BaseFragment() {
                 is RequestState.Success -> showSuccess()
                 is RequestState.Error -> showError(it.throwable)
                 is RequestState.Loading -> showLoading("Realizando a autenticação")
+            }
+        })
+        loginViewModel.resetPasswordState.observe(viewLifecycleOwner, Observer {
+            when (it) {
+                is RequestState.Success -> {
+                    hideLoading()
+                    showMessage(it.data)
+                }
+                is RequestState.Error -> showError(it.throwable)
+                is RequestState.Loading -> showLoading("Reenviando o e-mail para alteração")
             }
         })
     }

@@ -4,6 +4,8 @@ import br.com.calculaflex.domain.entity.RequestState
 import br.com.calculaflex.domain.entity.User
 import br.com.calculaflex.domain.entity.UserLogin
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.tasks.await
 
@@ -41,6 +43,15 @@ class UserRemoteFirebaseDataSourceImpl(
 
         } catch (e: Exception) {
             RequestState.Error(Exception(e))
+        }
+    }
+
+    override suspend fun resetPassword(email: String): RequestState<String> {
+        return try {
+            Firebase.auth.sendPasswordResetEmail(email).await()
+            RequestState.Success("Verifique sua caixa de e-mail")
+        } catch (e: java.lang.Exception) {
+            RequestState.Error(e)
         }
     }
 }

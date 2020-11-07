@@ -18,4 +18,8 @@ class UserRepositoryImpl(
         return userRemoteDataSource.doLogin(userLogin)
     }
 
+    override suspend fun resetPassword(email: String): RequestState<String> {
+        return userRemoteDataSource.resetPassword(email)
+    }
+
 }
