@@ -1,13 +1,14 @@
 package br.com.calculaflex.data.repository
 
 import br.com.calculaflex.data.remote.datasource.UserRemoteDataSource
+import br.com.calculaflex.domain.entity.NewUser
 import br.com.calculaflex.domain.entity.RequestState
 import br.com.calculaflex.domain.entity.User
 import br.com.calculaflex.domain.entity.UserLogin
 import br.com.calculaflex.domain.repository.UserRepository
 
 class UserRepositoryImpl(
-    val userRemoteDataSource: UserRemoteDataSource
+    private val userRemoteDataSource: UserRemoteDataSource
 ) : UserRepository {
 
     override suspend fun getUserLogged(): RequestState<User> {
@@ -20,6 +21,10 @@ class UserRepositoryImpl(
 
     override suspend fun resetPassword(email: String): RequestState<String> {
         return userRemoteDataSource.resetPassword(email)
+    }
+
+    override suspend fun create(newUser: NewUser): RequestState<User> {
+        return userRemoteDataSource.create(newUser)
     }
 
 }
