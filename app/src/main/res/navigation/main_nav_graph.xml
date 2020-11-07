@@ -20,4 +20,5 @@
         android:name="br.com.calculaflex.presentation.profile.ProfileFragment"
         android:label="ProfileFragment"
         tools:layout="@layout/fragment_profile" />
+    <include app:graph="@navigation/login_nav_graph" />
 </navigation>
