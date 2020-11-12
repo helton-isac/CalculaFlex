@@ -7,12 +7,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import br.com.calculaflex.R
 
 class UpdateAppFragment : Fragment() {
     private lateinit var btUpdateApp: Button
-    private lateinit var btUpdateLater: Button
+    private lateinit var btUpdateLater: TextView
     override fun onViewCreated(
         view: View, savedInstanceState:
         Bundle?
