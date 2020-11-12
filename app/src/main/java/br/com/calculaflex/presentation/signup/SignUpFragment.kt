@@ -18,6 +18,7 @@ import br.com.concrete.canarinho.watcher.TelefoneTextWatcher
 import br.com.concrete.canarinho.watcher.evento.EventoDeValidacao
 import com.airbnb.lottie.LottieAnimationView
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
 class SignUpFragment : BaseFragment() {
@@ -63,7 +64,10 @@ class SignUpFragment : BaseFragment() {
             SignUpViewModelFactory(
                 CreateUserUseCase(
                     UserRepositoryImpl(
-                        UserRemoteFirebaseDataSourceImpl(Firebase.auth)
+                        UserRemoteFirebaseDataSourceImpl(
+                            Firebase.auth,
+                            Firebase.firestore
+                        )
                     )
                 )
             )

@@ -1,18 +1,19 @@
 package br.com.calculaflex.data.remote.datasource
 
+import br.com.calculaflex.data.remote.mapper.NewUserFirebasePayloadMapper
 import br.com.calculaflex.domain.entity.NewUser
 import br.com.calculaflex.domain.entity.RequestState
 import br.com.calculaflex.domain.entity.User
 import br.com.calculaflex.domain.entity.UserLogin
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
+import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.tasks.await
 
 @ExperimentalCoroutinesApi
 class UserRemoteFirebaseDataSourceImpl(
-    private val mAuth: FirebaseAuth
+    private val mAuth: FirebaseAuth,
+    private val firebaseFirestore: FirebaseFirestore
 ) : UserRemoteDataSource {
 
     override suspend fun getUserLogged(): RequestState<User> {
@@ -49,7 +50,7 @@ class UserRemoteFirebaseDataSourceImpl(
 
     override suspend fun resetPassword(email: String): RequestState<String> {
         return try {
-            Firebase.auth.sendPasswordResetEmail(email).await()
+            mAuth.sendPasswordResetEmail(email).await()
             RequestState.Success("Verifique sua caixa de e-mail")
         } catch (e: java.lang.Exception) {
             RequestState.Error(e)
@@ -58,8 +59,17 @@ class UserRemoteFirebaseDataSourceImpl(
 
     override suspend fun create(newUser: NewUser): RequestState<User> {
         return try {
-            Firebase.auth.createUserWithEmailAndPassword(newUser.email, newUser.password).await()
-            RequestState.Success(User(newUser.name))
+            mAuth.createUserWithEmailAndPassword(newUser.email, newUser.password).await()
+            val newUserFirebasePayload =
+                NewUserFirebasePayloadMapper.mapToNewUserFirebasePayload(newUser)
+            val userId = mAuth.currentUser?.uid
+            if (userId == null) {
+                RequestState.Error(java.lang.Exception("Não foi possível criar a conta"))
+            } else {
+                firebaseFirestore
+                    .collection("users").document(userId).set(newUserFirebasePayload).await()
+                RequestState.Success(NewUserFirebasePayloadMapper.mapToUser(newUserFirebasePayload))
+            }
         } catch (e: java.lang.Exception) {
             RequestState.Error(e)
         }
