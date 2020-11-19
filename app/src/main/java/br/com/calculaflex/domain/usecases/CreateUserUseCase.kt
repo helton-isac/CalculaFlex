@@ -8,5 +8,7 @@ import br.com.calculaflex.domain.repository.UserRepository
 class CreateUserUseCase(
     private val userRepository: UserRepository
 ) {
-    suspend fun create(newUser: NewUser): RequestState<User> = userRepository.create(newUser)
+
+    suspend fun create(newUser: NewUser): RequestState<User> =
+        userRepository.create(newUser)
 }

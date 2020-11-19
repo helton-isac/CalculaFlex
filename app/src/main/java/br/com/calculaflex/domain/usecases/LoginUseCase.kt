@@ -10,7 +10,9 @@ import br.com.calculaflex.domain.repository.UserRepository
 class LoginUseCase(
     private val userRepository: UserRepository
 ) {
+
     suspend fun doLogin(userLogin: UserLogin): RequestState<User> {
+
         if (userLogin.email.isBlank()) {
             RequestState.Error(EmailBlankException())
         }
@@ -20,5 +22,7 @@ class LoginUseCase(
         }
 
         return userRepository.doLogin(userLogin)
+
     }
+
 }

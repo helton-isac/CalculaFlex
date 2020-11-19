@@ -10,7 +10,10 @@ import kotlinx.coroutines.launch
 class BaseViewModel(
     private val getMinAppVersionUseCase: GetMinAppVersionUseCase
 ) : ViewModel() {
+
+
     var minVersionAppState = MutableLiveData<RequestState<Int>>()
+
     fun getMinVersion() {
         viewModelScope.launch {
             minVersionAppState.value = getMinAppVersionUseCase.getMinVersionApp()

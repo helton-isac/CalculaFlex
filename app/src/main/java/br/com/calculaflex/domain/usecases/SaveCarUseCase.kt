@@ -11,17 +11,20 @@ class SaveCarUseCase(
     suspend fun save(car: Car): RequestState<Car> {
         val userLogged = getUserLoggedUseCase.getUserLogged()
 
-        return when (userLogged) {
+        return when(userLogged) {
             is RequestState.Success -> {
                 car.userId = userLogged.data.id
                 carRepository.save(car)
             }
+
             is RequestState.Loading -> {
                 RequestState.Loading
             }
+
             is RequestState.Error -> {
                 RequestState.Error(Exception("Usuário não encontrado para associar o carro"))
             }
         }
     }
+
 }

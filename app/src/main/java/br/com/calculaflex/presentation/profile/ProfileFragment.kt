@@ -6,5 +6,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @ExperimentalCoroutinesApi
 class ProfileFragment : BaseAuthFragment() {
+
     override val layout = R.layout.fragment_profile
 }
+

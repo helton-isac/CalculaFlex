@@ -13,14 +13,15 @@ class SignUpViewModel(
     private val createUserUseCase: CreateUserUseCase
 ) : ViewModel() {
     val newUserState = MutableLiveData<RequestState<User>>()
-    fun create(
-        name: String, email: String, phone: String, password:
-        String
-    ) {
+
+    fun create(name: String, email: String, phone: String, password: String) {
         viewModelScope.launch {
             newUserState.value = createUserUseCase.create(
                 NewUser(
-                    name, email, phone, password
+                    name,
+                    email,
+                    phone,
+                    password
                 )
             )
         }

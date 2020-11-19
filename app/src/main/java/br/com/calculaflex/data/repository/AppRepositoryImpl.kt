@@ -8,12 +8,12 @@ import br.com.calculaflex.domain.repository.AppRepository
 class AppRepositoryImpl(
     private val appRemoteDataSource: AppRemoteDataSource
 ) : AppRepository {
+
     override suspend fun getMinVersionApp(): RequestState<Int> {
         return appRemoteDataSource.getMinVersionApp()
     }
 
-    override suspend fun getDashboardMenu():
-            RequestState<DashboardMenu> {
+    override suspend fun getDashboardMenu(): RequestState<DashboardMenu> {
         return appRemoteDataSource.getDashboardMenu()
     }
 }

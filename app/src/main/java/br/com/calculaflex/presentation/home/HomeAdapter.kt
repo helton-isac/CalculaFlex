@@ -11,8 +11,10 @@ import br.com.calculaflex.domain.entity.DashboardItem
 import com.squareup.picasso.Picasso
 
 class HomeAdapter(
-    private var menuItems: List<DashboardItem>, private var clickListener: (DashboardItem) -> Unit
+    private var menuItems: List<DashboardItem>,
+    private var clickListener: (DashboardItem) -> Unit
 ) : RecyclerView.Adapter<HomeAdapter.ViewHolder>() {
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.dash_item, parent, false)
         return ViewHolder(view)
@@ -27,12 +29,17 @@ class HomeAdapter(
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+
         fun bind(item: DashboardItem, clickListener: (DashboardItem) -> Unit) {
             val label = itemView.findViewById<TextView>(R.id.textView8)
             val imageView = itemView.findViewById<ImageView>(R.id.imageView4)
+
             label.text = item.label
+
             Picasso.get()
-                .load(item.image).into(imageView)
+                .load(item.image)
+                .into(imageView)
+
             itemView.setOnClickListener { clickListener(item) }
         }
     }

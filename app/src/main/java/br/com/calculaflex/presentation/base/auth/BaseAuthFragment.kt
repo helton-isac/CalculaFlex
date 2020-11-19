@@ -14,7 +14,9 @@ import br.com.calculaflex.data.repository.UserRepositoryImpl
 import br.com.calculaflex.domain.entity.RequestState
 import br.com.calculaflex.domain.usecases.GetUserLoggedUseCase
 import br.com.calculaflex.presentation.base.BaseFragment
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -47,7 +49,9 @@ abstract class BaseAuthFragment : BaseFragment() {
     ): View? {
 
         registerObserver()
+
         baseAuthViewModel.getUserLogged()
+
         return super.onCreateView(inflater, container, savedInstanceState)
     }
 

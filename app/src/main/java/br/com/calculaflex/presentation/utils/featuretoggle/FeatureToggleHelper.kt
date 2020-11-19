@@ -1,20 +1,18 @@
 package br.com.calculaflex.presentation.utils.featuretoggle
 
+import android.app.AlertDialog
 import android.content.Context
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import br.com.calculaflex.domain.entity.DashboardItem
 import br.com.calculaflex.domain.entity.enums.FeatureToggleState
 
 class FeatureToggleHelper {
+
     fun configureFeature(
         dashboardItem: DashboardItem,
         featureToggleListener: FeatureToggleListener
     ) {
-        setFeatureToggleListener(
-            dashboardItem,
-            featureToggleListener
-        )
+        setFeatureToggleListener(dashboardItem, featureToggleListener)
     }
 
     private fun setFeatureToggleListener(
@@ -38,12 +36,8 @@ class FeatureToggleHelper {
         val builder = AlertDialog.Builder(ctx)
         builder.setTitle("Eitcha!")
         builder.setMessage("Funcionalidade temporariamente indisponível")
-        builder.setPositiveButton(android.R.string.yes) { dialog,
-                                                          which ->
-            Toast.makeText(
-                ctx,
-                android.R.string.yes, Toast.LENGTH_SHORT
-            ).show()
+        builder.setPositiveButton(android.R.string.yes) { dialog, which ->
+
         }
         builder.show()
     }

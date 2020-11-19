@@ -7,5 +7,7 @@ import br.com.calculaflex.domain.repository.AppRepository
 class GetDashboardMenuUseCase(
     private val appRespository: AppRepository
 ) {
-    suspend fun getDashboardMenu(): RequestState<DashboardMenu> = appRespository.getDashboardMenu()
+
+    suspend fun getDashboardMenu(): RequestState<DashboardMenu> =
+        appRespository.getDashboardMenu()
 }

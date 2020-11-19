@@ -8,6 +8,7 @@ import kotlinx.coroutines.tasks.await
 class CarRemoteFirebaseDataSourceImpl(
     private val firebaseFirestore: FirebaseFirestore
 ) : CarRemoteDataSource {
+
     override suspend fun save(car: Car): RequestState<Car> {
         return try {
             firebaseFirestore.collection("cars")

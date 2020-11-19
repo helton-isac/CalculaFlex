@@ -43,8 +43,11 @@ abstract class BaseFragment : Fragment() {
         ).get(BaseViewModel::class.java)
     }
 
+
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
 
         val screenRootView = FrameLayout(requireContext())
@@ -56,17 +59,59 @@ abstract class BaseFragment : Fragment() {
         screenRootView.addView(screenView)
         screenRootView.addView(loadingView)
 
-        registerObserver()
-
         return screenRootView
     }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        registerObserver()
+    }
+
+    private fun registerObserver() {
+        baseViewModel.minVersionAppState.observe(viewLifecycleOwner, Observer {
+            when (it) {
+                is RequestState.Loading -> {
+                    showLoading()
+                }
+                is RequestState.Success -> {
+                    hideLoading()
+                    if (it.data > BuildConfig.VERSION_CODE) {
+                        startUpdateApp()
+                    }
+                }
+                is RequestState.Error -> {
+                    NavHostFragment.findNavController(this).navigate(
+                        R.id.login_nav_graph, bundleOf(
+                            NAVIGATION_KEY to NavHostFragment.findNavController(this).currentDestination?.id
+                        )
+                    )
+                    hideLoading()
+                }
+            }
+        })
+    }
+
+    private fun startUpdateApp() {
+        val navOptions = NavOptions.Builder()
+            .setPopUpTo(R.id.updateAppFragment, true)
+            .build()
+
+        findNavController().setGraph(R.navigation.update_app_nav_graph)
+        findNavController().navigate(R.id.updateAppFragment, null, navOptions)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        baseViewModel.getMinVersion()
+    }
+
 
     fun showLoading(message: String = "Processando a requisição") {
         loadingView.visibility = View.VISIBLE
 
-        if (message.isNotEmpty()) {
+        if (message.isNotEmpty())
             loadingView.findViewById<TextView>(R.id.tvLoading).text = message
-        }
+
     }
 
     fun hideLoading() {
@@ -75,44 +120,5 @@ abstract class BaseFragment : Fragment() {
 
     fun showMessage(message: String?) {
         Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
-    }
-
-    private fun registerObserver() {
-        baseViewModel.minVersionAppState.observe(viewLifecycleOwner,
-            Observer {
-                when (it) {
-                    is RequestState.Loading -> {
-                        showLoading()
-                    }
-                    is RequestState.Success -> {
-                        hideLoading()
-                        if (it.data > BuildConfig.VERSION_CODE) {
-                            startUpdateApp()
-                        }
-                    }
-                    is RequestState.Error -> {
-                        NavHostFragment.findNavController(this).navigate(
-                            R.id.login_nav_graph, bundleOf(
-                                NAVIGATION_KEY to
-                                        NavHostFragment.findNavController(this).currentDestination?.id
-                            )
-                        )
-                        hideLoading()
-                    }
-                }
-            })
-
-    }
-
-    private fun startUpdateApp() {
-        val navOptions = NavOptions.Builder()
-            .setPopUpTo(R.id.updateAppFragment, true).build()
-        findNavController().setGraph(R.navigation.update_app_nav_graph)
-        findNavController().navigate(R.id.updateAppFragment, null, navOptions)
-    }
-
-    override fun onResume() {
-        super.onResume()
-        baseViewModel.getMinVersion()
     }
 }

@@ -6,7 +6,8 @@ import br.com.calculaflex.domain.usecases.CreateUserUseCase
 
 class SignUpViewModelFactory(
     private val createUserUseCase: CreateUserUseCase
-) : ViewModelProvider.Factory {
+): ViewModelProvider.Factory {
+
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         return modelClass.getConstructor(CreateUserUseCase::class.java)
             .newInstance(createUserUseCase)

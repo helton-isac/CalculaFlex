@@ -11,7 +11,5 @@ interface UserRepository {
 
     suspend fun doLogin(userLogin: UserLogin): RequestState<User>
 
-    suspend fun resetPassword(email: String): RequestState<String>
-
     suspend fun create(newUser: NewUser): RequestState<User>
 }

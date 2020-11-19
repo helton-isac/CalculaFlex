@@ -8,7 +8,9 @@ import br.com.calculaflex.domain.repository.CarRepository
 class CarRepositoryImpl(
     private val carRemoteDataSource: CarRemoteDataSource
 ) : CarRepository {
+
     override suspend fun save(car: Car): RequestState<Car> {
         return carRemoteDataSource.save(car)
     }
+
 }

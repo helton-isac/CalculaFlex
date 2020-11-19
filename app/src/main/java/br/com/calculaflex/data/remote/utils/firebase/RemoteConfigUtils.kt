@@ -10,6 +10,7 @@ import com.google.firebase.remoteconfig.ktx.remoteConfigSettings
 import kotlinx.coroutines.tasks.await
 
 object RemoteConfigUtils {
+
     suspend fun getFirebaseRemoteConfig(): FirebaseRemoteConfig {
 
         val remoteConfig = Firebase.remoteConfig

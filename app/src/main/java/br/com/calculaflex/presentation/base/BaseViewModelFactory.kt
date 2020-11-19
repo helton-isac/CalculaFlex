@@ -6,7 +6,8 @@ import br.com.calculaflex.domain.usecases.GetMinAppVersionUseCase
 
 class BaseViewModelFactory(
     private val getMinAppVersionUseCase: GetMinAppVersionUseCase
-) : ViewModelProvider.Factory {
+): ViewModelProvider.Factory {
+
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         return modelClass.getConstructor(GetMinAppVersionUseCase::class.java)
             .newInstance(getMinAppVersionUseCase)

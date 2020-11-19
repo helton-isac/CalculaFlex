@@ -6,5 +6,7 @@ import br.com.calculaflex.domain.repository.AppRepository
 class GetMinAppVersionUseCase(
     private val appRespository: AppRepository
 ) {
-    suspend fun getMinVersionApp(): RequestState<Int> = appRespository.getMinVersionApp()
+
+    suspend fun getMinVersionApp(): RequestState<Int> =
+        appRespository.getMinVersionApp()
 }

@@ -6,34 +6,26 @@
     app:startDestination="@id/loginFragment">
 
     <fragment
+        tools:layout="@layout/fragment_login"
         android:id="@+id/loginFragment"
         android:name="br.com.calculaflex.presentation.login.LoginFragment"
-        android:label="LoginFragment"
-        tools:layout="@layout/fragment_login">
+        android:label="LoginFragment" >
         <action
             android:id="@+id/action_loginFragment_to_signUpFragment"
-            app:destination="@id/signUpFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@android:anim/slide_in_left"
-            app:popExitAnim="@android:anim/slide_out_right" />
+            app:destination="@id/signUpFragment" />
     </fragment>
     <fragment
+        tools:layout="@layout/fragment_sign_up"
         android:id="@+id/signUpFragment"
         android:name="br.com.calculaflex.presentation.signup.SignUpFragment"
-        android:label="SignUpFragment"
-        tools:layout="@layout/fragment_sign_up">
+        android:label="SignUpFragment" >
         <action
             android:id="@+id/action_signUpFragment_to_termsFragment"
-            app:destination="@id/termsFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@android:anim/slide_in_left"
-            app:popExitAnim="@android:anim/slide_out_right" />
+            app:destination="@id/termsFragment" />
     </fragment>
     <fragment
+        tools:layout="@layout/fragment_terms"
         android:id="@+id/termsFragment"
         android:name="br.com.calculaflex.presentation.terms.TermsFragment"
-        android:label="TermsFragment"
-        tools:layout="@layout/fragment_terms"/>
+        android:label="TermsFragment" />
 </navigation>
