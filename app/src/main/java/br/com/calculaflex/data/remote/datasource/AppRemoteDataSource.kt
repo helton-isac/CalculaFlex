@@ -8,5 +8,5 @@ interface AppRemoteDataSource {
     suspend fun getMinVersionApp(): RequestState<Int>
 
     suspend fun getDashboardMenu(): RequestState<DashboardMenu>
-    
+
 }
