@@ -4,4 +4,8 @@
         <key>min_version_app</key>
         <value>1</value>
     </entry>
+    <entry>
+        <key>terms_url</key>
+        <value>https://calcula-flex-f8d41.web.app/</value>
+    </entry>
 </defaultsMap>

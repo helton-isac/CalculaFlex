@@ -11,7 +11,7 @@ class SaveCarUseCase(
     suspend fun save(car: Car): RequestState<Car> {
         val userLogged = getUserLoggedUseCase.getUserLogged()
 
-        return when(userLogged) {
+        return when (userLogged) {
             is RequestState.Success -> {
                 car.userId = userLogged.data.id
                 carRepository.save(car)

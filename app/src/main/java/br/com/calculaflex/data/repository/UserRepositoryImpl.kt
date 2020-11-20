@@ -8,7 +8,7 @@ import br.com.calculaflex.domain.entity.UserLogin
 import br.com.calculaflex.domain.repository.UserRepository
 
 class UserRepositoryImpl(
-    val userRemoteDataSource: UserRemoteDataSource
+    private val userRemoteDataSource: UserRemoteDataSource
 ) : UserRepository {
 
     override suspend fun getUserLogged(): RequestState<User> {
@@ -23,4 +23,7 @@ class UserRepositoryImpl(
         return userRemoteDataSource.create(newUser)
     }
 
+    override suspend fun resetPassword(email: String): RequestState<String> {
+        return userRemoteDataSource.resetPassword(email)
+    }
 }

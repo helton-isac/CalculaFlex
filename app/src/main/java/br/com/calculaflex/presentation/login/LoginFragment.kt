@@ -1,9 +1,7 @@
 package br.com.calculaflex.presentation.login
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.LinearLayout
@@ -17,8 +15,8 @@ import br.com.calculaflex.data.remote.datasource.UserRemoteFirebaseDataSourceImp
 import br.com.calculaflex.data.repository.UserRepositoryImpl
 import br.com.calculaflex.domain.entity.RequestState
 import br.com.calculaflex.domain.usecases.LoginUseCase
+import br.com.calculaflex.domain.usecases.ResetPasswordUseCase
 import br.com.calculaflex.presentation.base.BaseFragment
-import br.com.calculaflex.presentation.base.auth.BaseAuthFragment
 import br.com.calculaflex.presentation.base.auth.NAVIGATION_KEY
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
@@ -51,7 +49,13 @@ class LoginFragment : BaseFragment() {
                             Firebase.firestore
                         )
                     )
-                ))
+                ),
+                ResetPasswordUseCase(
+                    UserRepositoryImpl(
+                        UserRemoteFirebaseDataSourceImpl(Firebase.auth, Firebase.firestore)
+                    )
+                )
+            )
         ).get(LoginViewModel::class.java)
     }
 
@@ -82,12 +86,22 @@ class LoginFragment : BaseFragment() {
         }
 
         tvResetPassword.setOnClickListener {
-
+            loginViewModel.resetPassword(etEmailLogin.text.toString())
         }
 
         tvNewAccount.setOnClickListener {
             findNavController().navigate(R.id.action_loginFragment_to_signUpFragment)
         }
+        loginViewModel.resetPasswordState.observe(viewLifecycleOwner, Observer {
+            when (it) {
+                is RequestState.Success -> {
+                    hideLoading()
+                    showMessage(it.data)
+                }
+                is RequestState.Error -> showError(it.throwable)
+                is RequestState.Loading -> showLoading("Reenviando o e-mail para alteração")
+            }
+        })
     }
 
     private fun registerObserver() {
