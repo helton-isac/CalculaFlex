@@ -19,6 +19,9 @@ import br.com.calculaflex.domain.usecases.GetDashboardMenuUseCase
 import br.com.calculaflex.domain.usecases.GetUserLoggedUseCase
 import br.com.calculaflex.extensions.startDeeplink
 import br.com.calculaflex.presentation.base.auth.BaseAuthFragment
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.analytics.ktx.analytics
+import com.google.firebase.analytics.ktx.logEvent
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -55,6 +58,7 @@ class HomeFragment : BaseAuthFragment() {
         ).get(HomeViewModel::class.java)
     }
 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         registerBackPressedAction()
@@ -74,7 +78,7 @@ class HomeFragment : BaseAuthFragment() {
     private fun registerObserver() {
 
         homeViewModel.headerState.observe(viewLifecycleOwner, Observer {
-            when(it) {
+            when (it) {
                 is RequestState.Loading -> {
                     tvHomeHelloUser.isVisible = true
                     tvSubTitleSignUp.isVisible = true
@@ -126,6 +130,13 @@ class HomeFragment : BaseAuthFragment() {
     }
 
     private fun clickItem(item: DashboardItem) {
+
+        Firebase.analytics.logEvent(FirebaseAnalytics.Event.SELECT_ITEM) {
+            param(FirebaseAnalytics.Param.ITEM_ID, item.feature)
+            param(FirebaseAnalytics.Param.ITEM_NAME, item.feature)
+            param(FirebaseAnalytics.Param.CONTENT_TYPE, "click_button")
+        }
+
         item.onDisabledListener.let {
             it?.invoke(requireContext())
         }
@@ -133,7 +144,7 @@ class HomeFragment : BaseAuthFragment() {
         if (item.onDisabledListener == null) {
             when (item.feature) {
                 "SIGN_OUT" -> {
-                    //chamar o metodo de logout
+
                 }
                 "ETHANOL_OR_GASOLINE" -> {
                     startDeeplink("${item.action.deeplink}?id=${homeViewModel.userLogged?.id}")
