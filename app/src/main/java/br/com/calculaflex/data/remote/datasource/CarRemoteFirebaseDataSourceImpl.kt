@@ -20,4 +20,16 @@ class CarRemoteFirebaseDataSourceImpl(
             RequestState.Error(e)
         }
     }
+
+    override suspend fun findBy(id: String): RequestState<Car> {
+        return try {
+            val car = firebaseFirestore.collection("cars")
+                .document(id)
+                .get()
+                .await().toObject(Car::class.java) ?: Car()
+            RequestState.Success(car)
+        } catch (e: Exception) {
+            RequestState.Error(e)
+        }
+    }
 }
