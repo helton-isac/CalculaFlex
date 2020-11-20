@@ -22,6 +22,9 @@
         <action
             android:id="@+id/action_signUpFragment_to_termsFragment"
             app:destination="@id/termsFragment" />
+        <deepLink
+            android:id="@+id/deepLink"
+            app:uri="https://www.calculaflex.com.br/signup" />
     </fragment>
     <fragment
         tools:layout="@layout/fragment_terms"

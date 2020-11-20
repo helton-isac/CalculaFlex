@@ -3,7 +3,9 @@ package br.com.calculaflex.presentation.utils.notification
 import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.Context
+import android.content.Intent
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
@@ -34,7 +36,17 @@ object NotificationUtils {
         notificationManager.createNotificationChannel(channel)
     }
 
-    fun notificationSimple(context: Context, title: String, message: String, notifChannel: NotifChannel) {
+    fun notificationSimple(
+        context: Context,
+        title: String,
+        message: String,
+        notifChannel: NotifChannel,
+        intent: Intent
+    ) {
+        val pendingIntent = PendingIntent.getActivity(
+            context, 0, intent, PendingIntent.FLAG_ONE_SHOT
+        )
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             createNotificationChannel(context, notifChannel)
         }
@@ -42,6 +54,7 @@ object NotificationUtils {
             context,
             notifChannel.id
         )
+            .setContentIntent(pendingIntent)
             .setSmallIcon(R.mipmap.ic_launcher)
             .setContentTitle(title)
             .setContentText(message)
