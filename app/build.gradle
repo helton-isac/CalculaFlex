@@ -18,6 +18,14 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
+    sourceSets {
+        main {
+            res.srcDirs = [
+                    'src/main/res/betterfuel',
+                    'src/main/res',
+            ]
+        }
+    }
 
     buildTypes {
         release {
