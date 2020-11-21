@@ -1,6 +1,5 @@
 package br.com.calculaflex.presentation.betterfuel
 
-import CustomDialog
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
@@ -24,6 +23,7 @@ import br.com.calculaflex.extensions.getDouble
 import br.com.calculaflex.extensions.getString
 import br.com.calculaflex.presentation.base.auth.BaseAuthFragment
 import br.com.calculaflex.presentation.watchers.DecimalTextWatcher
+import br.com.calculaflexlib.components.customdialog.CustomDialog
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase

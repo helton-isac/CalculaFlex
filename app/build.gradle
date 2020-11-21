@@ -40,6 +40,24 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+
+    flavorDimensions "app"
+
+    productFlavors {
+        dev {
+            applicationIdSuffix ".dev"
+            buildConfigField 'String', 'CHAVE', '"VALOR"'
+        }
+
+        hml {
+            applicationIdSuffix ".hml"
+            buildConfigField 'String', 'CHAVE', '"VALOR"'
+        }
+
+        prd {
+            buildConfigField 'String', 'CHAVE', '"VALOR"'
+        }
+    }
 }
 
 dependencies {
@@ -87,6 +105,7 @@ dependencies {
 
     implementation 'com.squareup.picasso:picasso:2.71828'
 
-    implementation 'com.github.helton-isac:CalculaFlexLib:1.0.0'
+    //implementation 'com.github.helton-isac:CalculaFlexLib:1.0.0'
+    implementation 'com.github.heiderlopes:20MOB-CalculaFlexLib:1.0.1'
 
 }
