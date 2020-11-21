@@ -1,5 +1,6 @@
 package br.com.calculaflex.presentation.betterfuel
 
+import CustomDialog
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
@@ -119,11 +120,20 @@ class BetterFuelFragment : BaseAuthFragment() {
                     hideLoading()
 
                     val betterFuelMessage = when (it.data) {
-                        FuelType.GASOLINE -> "Melhor abastecer com gasolina"
-                        FuelType.ETHANOL -> "Melhor abastecer com álcool"
+                        FuelType.GASOLINE -> Pair("Gasolina", "Melhor abastecer com gasolina")
+                        FuelType.ETHANOL -> Pair("Álcool", "Melhor abastecer com álcool")
                     }
-
-                    showMessage(betterFuelMessage)
+                    val (title, message) = betterFuelMessage
+                    val dialog = CustomDialog()
+                    dialog.showDialog(
+                        requireActivity(),
+                        R.drawable.ic_logo_splash,
+                        title,
+                        message,
+                        "OK",
+                        View.OnClickListener { dialog.dismissDialog() },
+                        false
+                    )
                 }
                 is RequestState.Error -> {
                     hideLoading()
