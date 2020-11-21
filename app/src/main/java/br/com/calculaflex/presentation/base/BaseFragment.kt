@@ -85,7 +85,7 @@ abstract class BaseFragment : Fragment() {
             }
             "main" -> {
                 container.visibility = View.GONE
-                tvEnvironment.text = ""
+                tvEnvironment.text = "Prd"
             }
         }
 
